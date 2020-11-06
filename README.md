@@ -4,3 +4,4 @@ Emacs code directory to run at launch: ~/.emacs.d/packages
 
 ### Required package install: MELPA
 - smex
+- math-symbols
