@@ -1,3 +1,4 @@
+;; Timestamp 17-11-2020
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -12,7 +13,7 @@
 ")
  '(package-selected-packages
    (quote
-    (math-symbols wolfram-mode ac-math auto-complete smex))))
+    (slack math-symbols wolfram-mode ac-math auto-complete smex))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -20,8 +21,10 @@
  ;; If there is more than one, they won't work right.
  )
 
-;; Load Path
-(add-to-list 'load-path "~/.emacs.d/packages")
+;; Load Files
+(load "~/.emacs.d/key-bind.el") ;;Key Bindings
+
+;; Package Stuff
 
 ;; MELPA
 (require 'package)
@@ -33,7 +36,10 @@
 (setq ido-enable-flex-matching t)
 (setq ido-everywhere t)
 
-;; smex (MELPA)
+;; Prevent lag from math-symbols
+(setq inhibit-compacting-font-caches t)
+
+;; smex
 (global-set-key (kbd "M-x") 'smex)
 (global-set-key (kbd "M-x") 'smex-major-mode-commands)
 (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
