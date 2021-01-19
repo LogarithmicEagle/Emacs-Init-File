@@ -1,4 +1,4 @@
-;; Timestamp 18-1-2021
+;; Timestamp 19-1-2021
 
 (setq package-enable-at-startup nil)
 (package-initialize)
@@ -21,7 +21,7 @@
 ")
  '(package-selected-packages
    (quote
-    (auctex cdlatex emms-state emms highlight conda elscreen spacemacs-theme maxima haskell-mode zeal-at-point python-info org-d20 org-books org-drill hyperspace company-math company ac-ispell slack math-symbols wolfram-mode ac-math auto-complete smex slime))))
+    (cl-lib auctex cdlatex emms-state emms highlight conda elscreen spacemacs-theme maxima haskell-mode zeal-at-point python-info org-d20 org-books org-drill hyperspace company-math company ac-ispell slack math-symbols wolfram-mode ac-math auto-complete smex slime))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -80,12 +80,22 @@
   (conda-env-activate "base"))
 (add-hook 'python-mode-hook 'setup-conda)
 
-;; Org Mode
+;; CDLateX
+(setq cdlatex-command-alist
+      '(("lim" "Insert Lim" "\\lim_{?}" cdlatex-position-cursor nil nil t)
+	("ti" "Insert \\to\\infty" "\\to\\infty" nil nil nil t)
+	("t0" "Insert \\to0" "\\to0" nil nil nil t)
+	("=" "Insert a &= for align or align*" "&=" nil nil nil t)
+	("dv" "Insert a derrivative" "\\frac{d}{d ?}" cdlatex-position-cursor nil nil t)
+	("dx" "Insert a derrivative with respect to x" "\\frac{d}{dx}" nil nil nil t)
+	("pd" "Insert a partial derivative" "\\frac{\\partial}{\\partial ?}" cdlatex-position-cursor nil nil t)));; Add customization to CDLaTeX
+(add-hook 'org-mode-hook 'turn-on-org-cdlatex) ;; Turn on CDLaTeX
+
+;; Org mode
 (defun setup-org ()
   (setq org-capture-templates
 	'(("n" "Quote" entry (file "~/emacs/Capture/Quote.org")
 	   "* %u\n\"%i\"\n\t- %^{Speaker}, %^{Source}\n" :prepend t :kill-buffer t :empty-lines 1)))
-  (add-hook 'org-mode-hook 'turn-on-org-cdlatex) ;;Turn on CDLaTeX
   (org-babel-do-load-languages 'org-babel-load-languages
 			       '((emacs-lisp t)
 				 (python t)
