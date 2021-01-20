@@ -21,7 +21,7 @@
 ")
  '(package-selected-packages
    (quote
-    (cl-lib auctex cdlatex emms-state emms highlight conda elscreen spacemacs-theme maxima haskell-mode zeal-at-point python-info org-d20 org-books org-drill hyperspace company-math company ac-ispell slack math-symbols wolfram-mode ac-math auto-complete smex slime))))
+    (latex-preview-pane cl-lib auctex cdlatex emms-state emms highlight conda elscreen spacemacs-theme maxima haskell-mode zeal-at-point python-info org-d20 org-books org-drill hyperspace company-math company ac-ispell slack math-symbols wolfram-mode ac-math auto-complete smex slime))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -88,7 +88,13 @@
 	("=" "Insert a &= for align or align*" "&=" nil nil nil t)
 	("dv" "Insert a derrivative" "\\frac{d}{d ?}" cdlatex-position-cursor nil nil t)
 	("dx" "Insert a derrivative with respect to x" "\\frac{d}{dx}" nil nil nil t)
-	("pd" "Insert a partial derivative" "\\frac{\\partial}{\\partial ?}" cdlatex-position-cursor nil nil t)));; Add customization to CDLaTeX
+	("pd" "Insert a partial derivative" "\\frac{\\partial}{\\partial ?}" cdlatex-position-cursor nil nil t)
+	("sum" "Insert a sum with a subscript" "\\sum_{?}" cdlatex-position-cursor nil nil t)));; Add custom templates to CDLaTeX
+(setq cdlatex-math-modify-alist
+      '((?d "\\mathbb" nil t nil nil))) ;; Add custom modifiers to CDLaTeX
+(setq cdlatex-math-symbol-alist
+      '((?< ("\\leq" "\\leftarrow" "\\longleftarrow"))
+	(?> ("\\geq" "\\rightarrow" "\\longrightarrow")))) ;; Add custom symbols to CDLaTeX
 (add-hook 'org-mode-hook 'turn-on-org-cdlatex) ;; Turn on CDLaTeX
 
 ;; Org mode
