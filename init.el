@@ -1,4 +1,4 @@
-;; Timestamp 19-1-2021
+;; Timestamp 26-1-2021
 
 (setq package-enable-at-startup nil)
 (package-initialize)
@@ -19,9 +19,10 @@
 ;; Eval is C-j
 
 ")
+ '(org-agenda-files (quote ("~/emacs/Emacs Things.org")))
  '(package-selected-packages
    (quote
-    (latex-preview-pane cl-lib auctex cdlatex emms-state emms highlight conda elscreen spacemacs-theme maxima haskell-mode zeal-at-point python-info org-d20 org-books org-drill hyperspace company-math company ac-ispell slack math-symbols wolfram-mode ac-math auto-complete smex slime))))
+    (free-keys langtool latex-preview-pane cl-lib auctex cdlatex emms-state emms highlight conda elscreen spacemacs-theme maxima haskell-mode zeal-at-point python-info org-d20 org-books org-drill hyperspace company-math company ac-ispell slack math-symbols wolfram-mode ac-math auto-complete smex))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -64,9 +65,39 @@
 (global-set-key (kbd "M-x") 'smex-major-mode-commands)
 (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
 
-;; Spell Check
+;; Flyspell
 (setq-default ispell-program-name "D:/Program Files/MSYS2/mingw64/bin/aspell.exe")
-(add-hook 'text-mode-hook 'flyspell-mode) ;; Add auto autocorrect to text docs
+(add-hook 'outline-mode-hook 'flyspell-mode)
+(add-hook 'org-mode-hook 'flyspell-mode);; Add auto autocorrect to text docs
+
+;; LangTool
+(setq langtool-language-tool-jar "~/emacs/LanguageTool-5.2/LanguageTool-5.2/languagetool-commandline.jar") ;; Shows where LangTool is installed
+(require 'langtool)
+
+(defun langtool-autoshow-detail-popup (overlays) ;; Make LangTool Pop-up
+  (when (require 'popup nil t)
+    ;; Do not interrupt current popup
+    (unless (or popup-instances
+                ;; suppress popup after type `C-g` .
+                (memq last-command '(keyboard-quit)))
+      (let ((msg (langtool-details-error-message overlays)))
+        (popup-tip msg)))))
+(setq langtool-autoshow-message-function
+      'langtool-autoshow-detail-popup)
+
+(require 'org)
+(define-key org-mode-map (kbd "C-$") 'langtool-check)
+(define-key org-mode-map (kbd "M-4") 'langtool-correct-buffer)
+(define-key org-mode-map (kbd "C-M-4") 'langtool-check-done) ;; Key-bind LangTool
+
+;; CLISP
+(setq inferior-lisp-program "sbcl")
+
+;; Slime
+;; This doesn't work now, and I'm tired of trying to get this to work
+;; I'll leave the code in for future me
+;;(add-to-list 'load-path "d:/Documents/Programming/LISP/lispstick/lispstick/slime-2013-12-18")
+;;(require 'slime)
 
 ;; Python mode add conda
 (defun setup-conda ()
