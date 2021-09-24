@@ -1,4 +1,4 @@
-;; Timestamp 26-1-2021
+;; Timestamp 24-9-2021
 
 (setq package-enable-at-startup nil)
 (package-initialize)
@@ -19,10 +19,10 @@
 ;; Eval is C-j
 
 ")
- '(org-agenda-files (quote ("~/emacs/Emacs Things.org")))
+ '(org-agenda-files (quote ("d:/Documents/School/todo.org")))
  '(package-selected-packages
    (quote
-    (free-keys langtool latex-preview-pane cl-lib auctex cdlatex emms-state emms highlight conda elscreen spacemacs-theme maxima haskell-mode zeal-at-point python-info org-d20 org-books org-drill hyperspace company-math company ac-ispell slack math-symbols wolfram-mode ac-math auto-complete smex))))
+    (undo-tree org-superstar free-keys langtool latex-preview-pane cl-lib auctex cdlatex emms-state emms highlight conda elscreen spacemacs-theme maxima haskell-mode zeal-at-point python-info org-d20 org-books org-drill hyperspace company-math company ac-ispell slack math-symbols wolfram-mode ac-math auto-complete smex))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -99,7 +99,7 @@
 ;;(add-to-list 'load-path "d:/Documents/Programming/LISP/lispstick/lispstick/slime-2013-12-18")
 ;;(require 'slime)
 
-;; Python mode add conda
+;; Python mode add conda - DOES NOT START ON START-UP
 (defun setup-conda ()
   (require 'conda)
   (conda-env-initialize-interactive-shells)
@@ -109,7 +109,7 @@
     '(conda-anaconda-home "c:/Users/zacha/Anaconda3"))
   (setq conda-env-home-directory (expand-file-name "c:/Users/zacha/Anaconda3"))
   (conda-env-activate "base"))
-(add-hook 'python-mode-hook 'setup-conda)
+;; (add-hook 'python-mode-hook 'setup-conda)
 
 ;; CDLateX
 (setq cdlatex-command-alist
@@ -125,14 +125,16 @@
       '((?d "\\mathbb" nil t nil nil))) ;; Add custom modifiers to CDLaTeX
 (setq cdlatex-math-symbol-alist
       '((?< ("\\leq" "\\leftarrow" "\\longleftarrow"))
-	(?> ("\\geq" "\\rightarrow" "\\longrightarrow")))) ;; Add custom symbols to CDLaTeX
+	(?> ("\\geq" "\\rightarrow" "\\longrightarrow"))
+	(?= ("\\neq" "\\Leftrightarrow" "\\Longleftrightarrow"))
+	(?. ("\\ldots" "\\cdot")))) ;; Add custom symbols to CDLaTeX
 (add-hook 'org-mode-hook 'turn-on-org-cdlatex) ;; Turn on CDLaTeX
 
 ;; Org mode
 (defun setup-org ()
   (setq org-capture-templates
 	'(("n" "Quote" entry (file "~/emacs/Capture/Quote.org")
-	   "* %u\n\"%i\"\n\t- %^{Speaker}, %^{Source}\n" :prepend t :kill-buffer t :empty-lines 1)))
+	   "* %u\n\"%i\"\n\t- %^{Speaker}, %^{Source}\n" :prepend t :kill-buffer t :empty-lines 1))) ;; Org capture templates
   (org-babel-do-load-languages 'org-babel-load-languages
 			       '((emacs-lisp t)
 				 (python t)
@@ -145,5 +147,6 @@
 				 (lisp t)
 				 (octave t)
 				 )) ;; Allows for code execution in org mode files
-  (setq org-confirm-babel-evaluate nil)) ;; Disables security confirm to run code blocks in org mode
+  (setq org-confirm-babel-evaluate nil) ;; Disables security confirm to run code blocks in org mode
+  (org-superstar-mode 1)) ;; Fancy Bullets
 (add-hook 'org-mode-hook 'setup-org)
