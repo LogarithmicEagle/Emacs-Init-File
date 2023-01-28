@@ -1,7 +1,25 @@
+;; Set-up programming workspace
+(defun hyperspace-action->workspace-setup (environment)
+       (pcase environment
+	 ("clisp" (progn
+		    (split-window-right)
+		    (let ((default-directory "d:/Documents/Programming/CLISP/"))
+		      (async-shell-command "clisp" "idle-clisp")
+		      (shell "shell-clisp")
+		      (switch-to-buffer "idle-clisp"))))
+	 ("python" (progn
+		     (split-window-right)
+		     (let ((default-directory "d:/Documents/Programming/Python Programs/"))
+		       (shell "shell-python")
+		       (shell "idle-python")
+		       (switch-to-buffer-other-window "idle-python"))))))
+       
 (defvar hyperspace-actions
   '(
-    ;; Default
+    ;; Defined so errors do nothing
+    ("null" . (lambda (query)))
     
+    ;; Default
     ("ddg" . "https://duckduckgo.com/?q=%s")
      ("dis" . "https://duckduckgo.com/?q=%s&iax=images&ia=images")
      ("gg" . "https://www.google.com/search?q=%s")
@@ -33,9 +51,12 @@
 
      ;; General
      ("init" . (find-file "~/.emacs.d/init.el"))
-     ("pkg" . package-list-packages)
-     ("tab" . elscreen-start)
+     ("packages" . package-list-packages)
+     ("tabs" . elscreen-start)
      ("cap" . org-capture)
+
+     ;; Agendas
+     ("agenda" . org-agenda)
 
      ;; Modes
      ("morg" . org-mode)
@@ -49,8 +70,12 @@
      ("dp" . (find-file "d:/Documents/Programming/"))
 
      ;; Themes
+     ("themes" . customize-themes)
      ("light" . (load-theme 'spacemacs-light))
      ("dark" . (load-theme 'spacemacs-dark))
 
+     ;; Programming
+     ("workspace" . hyperspace-action->workspace-setup)
+
      ;; Websites
-     ("w3" . "https://www.w3schools.com/%s")))
+     ("w3" . "https://www.w3schools.com/%s"))) 

@@ -1,18 +1,39 @@
-;; Timestamp 24-9-2021
+;; Timestamp 2023-01-27
 
 (setq package-enable-at-startup nil)
-(package-initialize)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(ansi-color-names-vector
+   ["#212526" "#ff4b4b" "#b4fa70" "#fce94f" "#729fcf" "#e090d7" "#8cc4ff" "#eeeeec"])
  '(conda-anaconda-home "c:/Users/zacha/Anaconda3")
- '(custom-enabled-themes (quote (spacemacs-dark)))
+ '(custom-enabled-themes (quote (deeper-blue)))
  '(custom-safe-themes
    (quote
     ("fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default)))
+ '(elpy-modules
+   (quote
+    (elpy-module-company elpy-module-eldoc elpy-module-flymake elpy-module-pyvenv elpy-module-yasnippet elpy-module-django elpy-module-sane-defaults)))
+ '(hl-todo-keyword-faces
+   (quote
+    (("TODO" . "#dc752f")
+     ("NEXT" . "#dc752f")
+     ("THEM" . "#2d9574")
+     ("PROG" . "#4f97d7")
+     ("OKAY" . "#4f97d7")
+     ("DONT" . "#f2241f")
+     ("FAIL" . "#f2241f")
+     ("DONE" . "#86dc2f")
+     ("NOTE" . "#b1951d")
+     ("KLUDGE" . "#b1951d")
+     ("HACK" . "#b1951d")
+     ("TEMP" . "#b1951d")
+     ("FIXME" . "#dc752f")
+     ("XXX+" . "#dc752f")
+     ("\\?\\?\\?+" . "#dc752f"))))
  '(initial-buffer-choice t)
  '(initial-scratch-message
    ";; This buffer is for text that is not saved, and for Lisp evaluation.
@@ -20,9 +41,12 @@
 
 ")
  '(org-agenda-files (quote ("d:/Documents/School/todo.org")))
+ '(org-fontify-done-headline nil)
+ '(org-fontify-todo-headline nil)
  '(package-selected-packages
    (quote
-    (undo-tree org-superstar free-keys langtool latex-preview-pane cl-lib auctex cdlatex emms-state emms highlight conda elscreen spacemacs-theme maxima haskell-mode zeal-at-point python-info org-d20 org-books org-drill hyperspace company-math company ac-ispell slack math-symbols wolfram-mode ac-math auto-complete smex))))
+    (avy realgud blacken flycheck-pycheckers elpy all-the-icons centaur-tabs zeal-at-point wolfram-mode wolfram undo-tree spacemacs-theme smex slime slack scihub python-info org-superstar org-drill org-d20 org-books monochrome-theme maxima math-symbols latex-preview-pane langtool hyperspace highlight haskell-mode grammarly free-keys flycheck emms-state elscreen conda company-math chess cdlatex auctex ac-math ac-ispell)))
+ '(pdf-view-midnight-colors (quote ("#b2b2b2" . "#292b2e"))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -32,12 +56,17 @@
 
 ;; Tell Emacs that I'm not a dummy
 (setq disabled-command-function nil)
-
 ;; Load Files
 (ignore-errors
   (progn
     (load "~/.emacs.d/key-bind.el") ;; Key Bindings
     (load "~/.emacs.d/hyperspace-commands.el"))) ;; Hyperspace Commands
+
+;; Enable recursive mini-buffers
+(setq enable-recursive-minibuffers t)
+
+;; Auto open mode based on file type
+;(add-to-list 'auto-mode-alist '("\\.cl\\'" . lisp-mode))
 
 ;; Turn off Beeps
 (setq visible-bell t)
@@ -65,6 +94,10 @@
 (global-set-key (kbd "M-x") 'smex-major-mode-commands)
 (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
 
+;; Tabs
+(centaur-tabs-mode t)
+(setq centaur-tabs-set-icons t)
+
 ;; Flyspell
 (setq-default ispell-program-name "D:/Program Files/MSYS2/mingw64/bin/aspell.exe")
 (add-hook 'outline-mode-hook 'flyspell-mode)
@@ -72,7 +105,6 @@
 
 ;; LangTool
 (setq langtool-language-tool-jar "~/emacs/LanguageTool-5.2/LanguageTool-5.2/languagetool-commandline.jar") ;; Shows where LangTool is installed
-(require 'langtool)
 
 (defun langtool-autoshow-detail-popup (overlays) ;; Make LangTool Pop-up
   (when (require 'popup nil t)
@@ -85,31 +117,21 @@
 (setq langtool-autoshow-message-function
       'langtool-autoshow-detail-popup)
 
-(require 'org)
-(define-key org-mode-map (kbd "C-$") 'langtool-check)
-(define-key org-mode-map (kbd "M-4") 'langtool-correct-buffer)
-(define-key org-mode-map (kbd "C-M-4") 'langtool-check-done) ;; Key-bind LangTool
+;(define-key org-mode-map (kbd "C-$") 'langtool-check)
+;(define-key org-mode-map (kbd "M-4") 'langtool-correct-buffer)
+;(define-key org-mode-map (kbd "C-M-4") 'langtool-check-done) ;; Key-bind LangTool
 
-;; CLISP
+;; SBCL + Slime
+;(load "~/quicklisp/slime-helper.el")
+;; Replace "sbcl" with the path to your implementation
 (setq inferior-lisp-program "sbcl")
 
-;; Slime
-;; This doesn't work now, and I'm tired of trying to get this to work
-;; I'll leave the code in for future me
-;;(add-to-list 'load-path "d:/Documents/Programming/LISP/lispstick/lispstick/slime-2013-12-18")
-;;(require 'slime)
-
 ;; Python mode add conda - DOES NOT START ON START-UP
-(defun setup-conda ()
-  (require 'conda)
-  (conda-env-initialize-interactive-shells)
-  (conda-env-initialize-eshell)
-  (conda-env-autoactivate-mode t)
-  (custom-set-variables
-    '(conda-anaconda-home "c:/Users/zacha/Anaconda3"))
-  (setq conda-env-home-directory (expand-file-name "c:/Users/zacha/Anaconda3"))
-  (conda-env-activate "base"))
-;; (add-hook 'python-mode-hook 'setup-conda)
+(defun setup-python-init ()
+  (elpy-enable)
+  (local-set-key (kbd "C-c C-.") 'execute-extended-command))
+  
+(add-hook 'python-mode-hook 'setup-python-init)
 
 ;; CDLateX
 (setq cdlatex-command-alist
@@ -120,13 +142,18 @@
 	("dv" "Insert a derrivative" "\\frac{d}{d ?}" cdlatex-position-cursor nil nil t)
 	("dx" "Insert a derrivative with respect to x" "\\frac{d}{dx}" nil nil nil t)
 	("pd" "Insert a partial derivative" "\\frac{\\partial}{\\partial ?}" cdlatex-position-cursor nil nil t)
-	("sum" "Insert a sum with a subscript" "\\sum_{?}" cdlatex-position-cursor nil nil t)));; Add custom templates to CDLaTeX
+	("sum" "Insert a sum with a subscript" "\\sum_{?}" cdlatex-position-cursor nil nil t)
+	("mat" "Insert plain matrix (matrix) env"   "" cdlatex-environment ("matrix") t t)
+	("bmat" "Insert square bracket matrix(bmatrix) env"   "" cdlatex-environment ("bmatrix") t t)
+	("pmat" "Insert parenth bracket matrix (pmatrix) env"   "" cdlatex-environment ("pmatrix") t t)
+	("m" "Make math environment inline" "$?$" cdlatex-position-cursor nil t t)));; Add custom templates to CDLaTeX
 (setq cdlatex-math-modify-alist
       '((?d "\\mathbb" nil t nil nil))) ;; Add custom modifiers to CDLaTeX
 (setq cdlatex-math-symbol-alist
       '((?< ("\\leq" "\\leftarrow" "\\longleftarrow"))
 	(?> ("\\geq" "\\rightarrow" "\\longrightarrow"))
 	(?= ("\\neq" "\\Leftrightarrow" "\\Longleftrightarrow"))
+	(?t ("\\tau" "\\times" "\\tan"))
 	(?. ("\\ldots" "\\cdot")))) ;; Add custom symbols to CDLaTeX
 (add-hook 'org-mode-hook 'turn-on-org-cdlatex) ;; Turn on CDLaTeX
 
