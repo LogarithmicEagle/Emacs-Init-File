@@ -1,4 +1,4 @@
-;; Set-up programming workspace
+;; Set-up programming workspaces
 (defun hyperspace-action->workspace-setup (environment)
        (pcase environment
 	 ("clisp" (progn
