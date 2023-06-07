@@ -1,4 +1,3 @@
-<<<<<<< Updated upstream
 ;; Make other buffer selected
 (global-set-key "\C-x\C-b" 'buffer-menu-other-window)
 
@@ -34,7 +33,7 @@
 ;; Avy
 (global-set-key (kbd "C-:") 'avy-goto-char)
 (global-set-key (kbd "C-'") 'avy-goto-char-2)
-=======
+
 ;; Make other buffer selecteds
 (global-set-key "\C-x\C-b" 'buffer-menu-other-window)
 
@@ -70,4 +69,3 @@
 ;; Avy
 (global-set-key (kbd "C-'") 'avy-goto-char)
 (global-set-key (kbd "C-:") 'avy-goto-char-2)
->>>>>>> Stashed changes
