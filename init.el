@@ -10,7 +10,7 @@
  '(ansi-color-names-vector
    ["#212526" "#ff4b4b" "#b4fa70" "#fce94f" "#729fcf" "#e090d7" "#8cc4ff" "#eeeeec"])
  '(conda-anaconda-home "c:/Users/zacha/Anaconda3")
- '(custom-enabled-themes (quote (deeper-blue)))
+ ;'(custom-enabled-themes (quote (deeper-blue)))
  '(custom-safe-themes
    (quote
     ("fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default)))
@@ -34,7 +34,7 @@
      ("FIXME" . "#dc752f")
      ("XXX+" . "#dc752f")
      ("\\?\\?\\?+" . "#dc752f"))))
- '(initial-buffer-choice t)
+ '(initial-buffer-choice '(lambda () (shell) (delete-other-windows)))
  '(initial-scratch-message
    ";; This buffer is for text that is not saved, and for Lisp evaluation.
 ;; Eval is C-j
