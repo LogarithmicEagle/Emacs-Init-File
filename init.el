@@ -34,7 +34,7 @@
      ("FIXME" . "#dc752f")
      ("XXX+" . "#dc752f")
      ("\\?\\?\\?+" . "#dc752f"))))
- '(initial-buffer-choice t)
+ '(initial-buffer-choice '(lambda () (eshell) (delete-other-windows)))
  '(initial-scratch-message
    ";; This buffer is for text that is not saved, and for Lisp evaluation.
 ;; Eval is C-j
