@@ -1,3 +1,5 @@
+;;Timestamp 2023-06-11
+
 ;; Make other buffer selected
 (global-set-key "\C-x\C-b" 'buffer-menu-other-window)
 
