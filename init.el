@@ -1,5 +1,4 @@
 ;; Timestamp 2023-01-28
-
 (setq package-enable-at-startup nil)
 
 (custom-set-variables
@@ -88,11 +87,6 @@
 
 ;; Prevent lag from math-symbols
 (setq inhibit-compacting-font-caches t)
-
-;; smex
-(global-set-key (kbd "M-x") 'smex)
-(global-set-key (kbd "M-x") 'smex-major-mode-commands)
-(global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
 
 ;; Tabs
 (centaur-tabs-mode t)
