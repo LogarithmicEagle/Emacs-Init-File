@@ -36,5 +36,8 @@
 (global-set-key (kbd "C-x C-e") 'pp-eval-last-sexp)
 
 ;; Avy
-(global-set-key (kbd "C-:") 'avy-goto-char)
-(global-set-key (kbd "C-'") 'avy-goto-char-2)
+(global-set-key (kbd "M-j") 'avy-goto-char)
+(global-set-key (kbd "C-M-j") 'avy-goto-char-2)
+
+;; Make button combos pressable in terminal
+(global-set-key (kdb "C-x a") 'set-mark-command)
